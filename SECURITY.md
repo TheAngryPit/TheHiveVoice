@@ -1,58 +1,42 @@
 # Security Policy
 
-## Supported Versions
+## Current support status
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.7.x   | :white_check_mark: |
-| < 1.7   | :x:                |
+TheHive Voice has not published a supported release. Security reports are still
+welcome for code on the `product` branch and for fork-specific changes. Issues
+that reproduce unchanged on `main` should also be reported to OpenWhispr through
+its own security process.
 
-## Reporting a Vulnerability
+## Reporting a vulnerability
 
-**Please do not open public issues for security vulnerabilities.**
+Do not open a public issue for a suspected vulnerability.
 
-Use [GitHub's private vulnerability reporting](https://github.com/OpenWhispr/openwhispr/security/advisories/new)
-to submit a report. You can also email security@openwhispr.com.
+Use GitHub private vulnerability reporting for
+[`TheAngryPit/TheHiveVoice`](https://github.com/TheAngryPit/TheHiveVoice/security/advisories/new).
+Include the affected commit, platform, reproduction steps, impact, and whether
+the issue also reproduces on upstream OpenWhispr.
 
-We will acknowledge your report within **48 hours** and aim to release a fix
-within **7 days** for critical issues.
+Do not include live API keys, OAuth tokens, recordings, personal transcripts, or
+other user data in the report. Use synthetic evidence and redact logs.
+
+We do not publish a response-time or remediation-time guarantee before the first
+supported release.
 
 ## Scope
 
-The following are in scope:
+Security-sensitive surfaces include:
 
-- Remote code execution via crafted audio files or transcription output
-- Privilege escalation through native binaries (key listeners, paste helpers)
-- Credential exposure (API keys, OAuth tokens, database credentials)
-- Cross-site scripting (XSS) in the Electron renderer
-- Insecure IPC between main and renderer processes
-- Supply chain attacks via dependencies or native compilation
+- microphone, system-audio, accessibility, and automation permissions;
+- native key listeners, paste helpers, and packaged binaries;
+- Electron main/renderer/preload boundaries and IPC;
+- local loopback APIs, agent routes, and remote/tailnet connections;
+- API keys, OAuth tokens, provider credentials, and local databases;
+- crafted audio, transcripts, model output, and imported content;
+- dependency, build, update, signing, and release supply chains.
 
-Out of scope:
+## Fork boundary
 
-- Issues requiring physical access to an already-unlocked machine
-- Denial of service against the local application
-- Social engineering
-
-## Security Model
-
-- **Local-first audio processing** — Audio is transcribed on-device using
-  whisper.cpp or nvidia parakeet. Recordings are not sent to external servers unless explicitly
-  configured by the user.
-- **Credential storage** — API keys provided by users (BYOK) and enterprise
-  cloud credentials (AWS, Azure, Vertex) are encrypted at rest using
-  Electron's `safeStorage` API, which delegates to the OS keychain (Keychain
-  on macOS, DPAPI on Windows, libsecret on Linux). Encrypted blobs are stored
-  under `userData/secure-keys/`. Non-secret preferences (regions, endpoints,
-  hotkeys, flags) continue to live in `.env`. On Linux systems without a
-  keyring, secrets fall back to plaintext to match Electron's default
-  behavior.
-- **Native binaries** — Platform-specific helpers (key listeners, paste
-  utilities) are compiled from source during the build process.
-- **Context isolation** — The Electron renderer runs with context isolation
-  enabled and a restricted preload bridge.
-
-## Disclosure Policy
-
-We follow coordinated disclosure. Once a fix is released, we will credit
-reporters in the changelog (unless they prefer to remain anonymous).
+`main` is the upstream mirror. `product` contains TheHive Voice integration work.
+TheHive Voice does not inherit OpenWhispr Cloud operations, sponsor relationships,
+security contacts, signing identities, or release guarantees merely because the
+source is forked.

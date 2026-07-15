@@ -1,60 +1,68 @@
-# Contributing to OpenWhispr
+# Contributing to TheHive Voice
 
-Thanks for your interest in contributing. OpenWhispr is an open-source,
-privacy-first voice-to-text app, and improvements from the community —
-bug reports, fixes, docs, features — are very welcome.
+TheHive Voice has two contribution lanes. Choose the lane before editing so a
+useful upstream fix is not trapped inside product-only work.
 
-The canonical contributing guide lives at
-**[docs.openwhispr.com/contributing](https://docs.openwhispr.com/contributing)**.
-This file is a short pointer with the repo-local details you may need
-along the way.
+## 1. Upstreamable OpenWhispr work
 
-## Filing issues
+Use this lane for a focused bug fix or improvement that applies to OpenWhispr
+without TheHive Voice dependencies.
 
-- Bugs and feature requests:
-  [github.com/OpenWhispr/openwhispr/issues](https://github.com/OpenWhispr/openwhispr/issues)
-- Please use the existing issue templates (`bug_report`, `feature_request`)
-  so we have the info needed to reproduce.
-- For transcription or audio problems, attaching debug logs is a huge
-  help — see [`DEBUG.md`](../DEBUG.md) for how to enable debug logging
-  and where the log files live, and [`TROUBLESHOOTING.md`](../TROUBLESHOOTING.md)
-  for common fixes to try first.
+1. Branch from `main`.
+2. Keep the change independent of TheHive Voice product code.
+3. Run the focused local checks and the upstream-required checks.
+4. Open the pull request against `OpenWhispr/openwhispr:main`.
+5. Reconcile the accepted upstream change back through the normal upstream sync.
 
-## Reporting security issues
+## 2. TheHive Voice product work
 
-**Please do not open public issues for security vulnerabilities.**
-Follow the process in [`SECURITY.md`](../SECURITY.md): use
-[GitHub's private vulnerability reporting](https://github.com/OpenWhispr/openwhispr/security/advisories/new)
-or email `security@openwhispr.com`.
+Use this lane for Apple continuity, TheHive-specific UX, agent routing, governed
+device control, product policy, or integrations that are not yet upstream-ready.
 
-## Contributing code
+1. Branch from `product` using a short descriptive branch name.
+2. Keep one coherent product slice per pull request.
+3. Target `TheAngryPit/TheHiveVoice:product`.
+4. State which behavior is inherited, changed, and newly introduced.
+5. Include proof and explicit remaining gaps.
 
-See the [contributing guide](https://docs.openwhispr.com/contributing)
-for the full workflow, coding conventions, and review expectations.
-The short version:
+## Worktrees
 
-1. Fork the repo and create a feature branch off `main`.
-2. Make your change, keeping the diff focused.
-3. Run `npm run lint` and `npm run format` before opening a PR.
-4. Open a pull request against `OpenWhispr/openwhispr` `main` and fill
-   in the description so reviewers can see the "why".
+Use one worktree only for a long-lived or concurrently active implementation
+lane. Do not create a worktree for read-only exploration or a brief review. Each
+worktree owns exactly one branch and is removed after the pull request is merged
+or abandoned.
 
-### Local setup
+See [`docs/UPSTREAM-WORKFLOW.md`](../docs/UPSTREAM-WORKFLOW.md).
 
-| Requirement | Notes                                                                             |
-| ----------- | --------------------------------------------------------------------------------- |
-| Node.js     | Version pinned in [`.nvmrc`](../.nvmrc) (currently `24`). Use `nvm use` to match. |
-| Install     | `npm install`                                                                     |
-| Run dev     | `npm run dev`                                                                     |
-| Lint        | `npm run lint`                                                                    |
-| Format      | `npm run format`                                                                  |
-| Build       | `npm run build` (or `build:mac` / `build:win` / `build:linux`)                    |
+## Local setup and checks
 
-Platform-specific setup, local Whisper notes, and packaging details are
-in [`README.md`](../README.md) and
-[`LOCAL_WHISPER_SETUP.md`](../LOCAL_WHISPER_SETUP.md).
+```bash
+nvm use
+npm ci
+npm test
+npm run typecheck
+npm run lint
+```
 
-## Thanks
+Use `npm run format:check` before requesting final review. Avoid `npm run format`
+on a broad dirty tree because it mutates files.
 
-Thanks for taking the time to contribute — every issue, fix, and
-improvement helps make OpenWhispr better.
+Crabbox is the preferred remote surface for broad or CI-parity proof when it is
+configured. Report its actual provider and lease ID. Do not describe an AWS
+Crabbox lease and a Blacksmith Testbox-through-Crabbox run as the same backend.
+
+## Pull requests
+
+Every pull request should include:
+
+- source branch and target lane;
+- user-visible behavior changed;
+- tests and commands run;
+- proof level and known gaps;
+- screenshots or recordings for UI changes;
+- security/privacy impact for audio, permissions, credentials, or agent control.
+
+## Issues and security
+
+Use the repository issue templates for normal bugs and feature requests. Follow
+[`SECURITY.md`](../SECURITY.md) for vulnerabilities; never file them publicly.

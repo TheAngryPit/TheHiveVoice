@@ -1,114 +1,111 @@
-<p align="center">
-  <img src="src/assets/logo.svg" alt="OpenWhispr" width="120" />
-</p>
+# TheHive Voice
 
-<h1 align="center">OpenWhispr</h1>
+TheHive Voice is an open-source voice operating layer for macOS, iOS, and
+watchOS. The product direction combines dictation, text-to-speech, realtime
+conversation, and governed agent control across local, tailnet, BYOK, and cloud
+routes.
 
-<p align="center">
-  <a href="https://github.com/OpenWhispr/openwhispr/blob/main/LICENSE"><img src="https://img.shields.io/github/license/OpenWhispr/openwhispr?style=flat" alt="License" /></a>
-  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat" alt="Platform" />
-  <a href="https://github.com/OpenWhispr/openwhispr/releases/latest"><img src="https://img.shields.io/github/v/release/OpenWhispr/openwhispr?style=flat&sort=semver" alt="GitHub release" /></a>
-  <a href="https://github.com/OpenWhispr/openwhispr/releases"><img src="https://img.shields.io/github/downloads/OpenWhispr/openwhispr/total?style=flat&color=blue" alt="Downloads" /></a>
-  <a href="https://github.com/OpenWhispr/openwhispr/stargazers"><img src="https://img.shields.io/github/stars/OpenWhispr/openwhispr?style=flat" alt="GitHub stars" /></a>
-</p>
+> [!IMPORTANT]
+> The repository is in its foundation phase. The current desktop implementation
+> is inherited from [OpenWhispr](https://github.com/OpenWhispr/openwhispr). The
+> additional TheHive Voice modes and Apple-platform clients are product direction,
+> not released functionality yet.
 
-<p align="center">
-  The open-source and free alternative to WisprFlow and Granola.<br/>
-  Privacy-first voice-to-text dictation with AI agents, meeting transcription, and notes. Cross-platform for macOS, Windows, and Linux.
-</p>
+## Current baseline
 
-<p align="center">
-  <a href="https://openwhispr.com">Website</a> &middot;
-  <a href="https://docs.openwhispr.com">Docs</a> &middot;
-  <a href="https://github.com/OpenWhispr/openwhispr/releases/latest">Download</a> &middot;
-  <a href="https://docs.openwhispr.com/api/overview">API</a> &middot;
-  <a href="https://github.com/OpenWhispr/openwhispr/blob/main/CHANGELOG.md">Changelog</a>
-</p>
+The inherited OpenWhispr baseline already provides a substantial cross-platform
+desktop surface:
 
----
+- global voice dictation and paste;
+- local Whisper and NVIDIA Parakeet transcription;
+- cloud transcription and AI-provider routes;
+- meeting transcription, notes, and local semantic search;
+- Electron, React 19, TypeScript, Tailwind CSS v4, and shadcn/ui.
 
-OpenWhispr turns your voice into text, notes, and actions from your desktop. Press a hotkey, speak, and your words appear at your cursor. Choose between fully private offline transcription with local speech-to-text engines like Whisper and NVIDIA Parakeet — where your audio never leaves your device — or cloud processing for speed. No data collection, no telemetry, fully open source.
+The first TheHive Voice work builds upward from that functional baseline. It does
+not replace working dictation with a prototype.
 
-## Download
+## Product direction
 
-| Platform              | Download                                                                                                                                                                                                                                                                                  |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| macOS (Apple Silicon) | [`.dmg`](https://github.com/OpenWhispr/openwhispr/releases/latest)                                                                                                                                                                                                                        |
-| macOS (Intel)         | [`.dmg`](https://github.com/OpenWhispr/openwhispr/releases/latest)                                                                                                                                                                                                                        |
-| Windows               | [`.exe`](https://github.com/OpenWhispr/openwhispr/releases/latest)                                                                                                                                                                                                                        |
-| Linux                 | [`.AppImage`](https://github.com/OpenWhispr/openwhispr/releases/latest) / [`.deb`](https://github.com/OpenWhispr/openwhispr/releases/latest) / [`.rpm`](https://github.com/OpenWhispr/openwhispr/releases/latest) / [`.tar.gz`](https://github.com/OpenWhispr/openwhispr/releases/latest) |
+- **Voice-to-text** for fast system-wide dictation.
+- **Text-to-speech** with explicit local or remote routing.
+- **Realtime conversation** with clear microphone, connection, and session state.
+- **Agent mode** for user-selected Codex, Hermes, OpenClaw, OpenCode, or compatible
+  endpoints without silent fallback.
+- **Apple continuity** across macOS, iOS, and watchOS.
+- **Local-first and BYOK choices** alongside optional managed services.
+- **Visible authority and stop controls** whenever an agent can act on a device.
 
-## Features
+## Development status
 
-- **Voice dictation** — global hotkey to dictate into any app with automatic pasting
-- **AI agent** — talk to GPT-5, Claude, Gemini, Groq, Tinfoil, OpenRouter, or local models with a named voice assistant
-- **Voice agent hotkey** — dedicated hotkey that sends your dictation straight to your AI agent as a command, no wake word needed and no cleanup pass
-- **Meeting transcription** — auto-detect Zoom, Teams, and FaceTime calls with live speaker diarization, voice fingerprinting, and Google Calendar integration
-- **Local speaker diarization** — on-device speaker labelling with voice fingerprint recognition across meetings, no cloud required
-- **Notes** — create, organize, and search notes with folders, semantic search, cloud sync, and AI actions
-- **Local or cloud — your choice** — all core features (transcription, AI reasoning, speaker diarization, semantic search) work with local models or cloud providers
-- **Public API & MCP** — manage notes and transcriptions programmatically or connect your AI assistant via the [MCP server](https://docs.openwhispr.com/integrations/mcp)
+There are no TheHive Voice releases yet. Do not use upstream OpenWhispr release
+artifacts as proof of a TheHive Voice release.
 
-## Quick start
+For the inherited desktop baseline:
 
 ```bash
-git clone https://github.com/OpenWhispr/openwhispr.git
-cd openwhispr
-npm install
+git clone https://github.com/TheAngryPit/TheHiveVoice.git
+cd TheHiveVoice
+nvm use
+npm ci
 npm run dev
 ```
 
-Requires Node.js 24+. See the [full documentation](https://docs.openwhispr.com/quickstart) for setup guides, platform-specific instructions, and build details.
+Node.js 24 is required. Native resources and model downloads make the first
+development start materially heavier than a normal React application.
 
-## Documentation
+## Repository workflow
 
-Visit **[docs.openwhispr.com](https://docs.openwhispr.com)** for:
+- `main` mirrors `OpenWhispr/openwhispr:main`.
+- `product` is the default TheHive Voice integration branch.
+- Upstreamable fixes branch from `main` and target OpenWhispr upstream.
+- TheHive Voice features branch from `product` and target this repository.
+- Upstream updates reach `product` through a reviewable reconciliation pull
+  request, never by copying files manually.
 
-- [Getting started](https://docs.openwhispr.com/quickstart)
-- [Platform guides](https://docs.openwhispr.com/platform/macos) (macOS, Windows, Linux)
-- [API reference](https://docs.openwhispr.com/api/overview)
-- [MCP server setup](https://docs.openwhispr.com/integrations/mcp)
-- [Troubleshooting](https://docs.openwhispr.com/troubleshooting)
+Read [the upstream and worktree workflow](docs/UPSTREAM-WORKFLOW.md) before
+starting implementation.
 
-## Tech stack
+## Validation
 
-React 19, TypeScript, Tailwind CSS v4, Electron 41, better-sqlite3, whisper.cpp, sherpa-onnx, shadcn/ui
+Use focused local checks during development:
 
-## Star History
+```bash
+npm test
+npm run typecheck
+npm run lint
+```
 
-[![Star History Chart](https://api.star-history.com/svg?repos=OpenWhispr/openwhispr&type=date&legend=top-left)](https://www.star-history.com/#OpenWhispr/openwhispr&type=date&legend=top-left)
-
-## Sponsors
-
-<p align="center">
-  <a href="https://console.neon.tech/app/?promo=openwhispr">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://neon.com/brand/neon-logo-dark-color.svg">
-      <source media="(prefers-color-scheme: light)" srcset="https://neon.com/brand/neon-logo-light-color.svg">
-      <img width="250" alt="Neon" src="https://neon.com/brand/neon-logo-light-color.svg">
-    </picture>
-  </a>
-</p>
-
-<p align="center"><a href="https://console.neon.tech/app/?promo=openwhispr">Neon</a> is the serverless Postgres platform powering OpenWhispr Cloud.</p>
+Broad, expensive, or CI-parity validation belongs on Crabbox when that provider
+is configured. A Crabbox result must report the actual provider, lease ID, command,
+and exit status; a queued or unavailable box is not a passing gate.
 
 ## Contributing
 
-We welcome contributions. Fork the repo, create a feature branch, and open a pull request. See the [contributing guide](https://docs.openwhispr.com/contributing) for development setup and guidelines.
+Issues and pull requests are welcome. Start with
+[the contribution guide](.github/CONTRIBUTING.md). Security vulnerabilities must
+follow [the private reporting policy](SECURITY.md), not a public issue.
 
 ## License
 
-[MIT](LICENSE) — free for personal and commercial use.
+[MIT](LICENSE). The fork preserves the upstream license and attribution.
 
 ## Acknowledgments
 
-- **[OpenAI Whisper](https://github.com/openai/whisper)** — speech recognition model powering local and cloud transcription
-- **[whisper.cpp](https://github.com/ggerganov/whisper.cpp)** — high-performance C++ implementation for local processing
-- **[NVIDIA Parakeet](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3)** — fast multilingual ASR model
-- **[sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)** — cross-platform ONNX runtime for Parakeet inference
-- **[Hugging Face](https://huggingface.co/)** — model hub hosting Whisper, Parakeet, and embedding model weights
-- **[llama.cpp](https://github.com/ggerganov/llama.cpp)** — local LLM inference for AI text processing
-- **[Electron](https://www.electronjs.org/)** — cross-platform desktop framework
-- **[React](https://react.dev/)** — UI component library
-- **[shadcn/ui](https://ui.shadcn.com/)** — accessible components built on Radix primitives
-- **[Neon](https://console.neon.tech/app/?promo=openwhispr)** — serverless Postgres powering OpenWhispr Cloud
+TheHive Voice is built from the substantial work of the
+[OpenWhispr](https://github.com/OpenWhispr/openwhispr) maintainers and contributors.
+The inherited baseline also depends on:
+
+- [OpenAI Whisper](https://github.com/openai/whisper)
+- [whisper.cpp](https://github.com/ggerganov/whisper.cpp)
+- [NVIDIA Parakeet](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3)
+- [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)
+- [Hugging Face](https://huggingface.co/)
+- [llama.cpp](https://github.com/ggerganov/llama.cpp)
+- [Electron](https://www.electronjs.org/)
+- [React](https://react.dev/)
+- [shadcn/ui](https://ui.shadcn.com/)
+
+Upstream-specific sponsors and cloud infrastructure are not presented as
+TheHive Voice sponsors or infrastructure unless TheHive Voice adopts them
+explicitly.
